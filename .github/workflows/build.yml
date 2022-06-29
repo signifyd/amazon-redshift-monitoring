@@ -11,8 +11,9 @@ jobs:
           python-version: '2.7'
           cache: 'pip'
       - run: pip install -r requirements.txt
-      - name: Build Lambda
-        run: ./build.sh
+      - run: ./build.sh
+        env:
+          ver: ${{github.ref_name}}
       - uses: actions/upload-artifact@v3
         with:
           name: dist
