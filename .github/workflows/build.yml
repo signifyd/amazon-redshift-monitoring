@@ -16,5 +16,5 @@ jobs:
           ver: ${{github.ref_name}}
       - uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: dist
+          name: redshift-advanced-monitoring
+          path: dist/*.zip
