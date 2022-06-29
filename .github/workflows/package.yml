@@ -4,6 +4,10 @@ on: push
 jobs:
   package:
     runs-on: ubuntu-latest
+    # required for github oidc
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -20,7 +24,9 @@ jobs:
           cp *.py dist/
           cp -r lib/ dist/
           cp monitoring-queries.json dist/
-      - uses: actions/upload-artifact@v3
+      - run: zip -r redshift-advanced-monitoring.zip dist/
+      - uses: aws-actions/configure-aws-credentials@v1
         with:
-          name: redshift-advanced-monitoring-${{github.ref_name}}
-          path: dist/
+          role-to-assume: arn:aws:iam::418861316265:role/github-amazon-redshift-monitoring
+          aws-region: us-east-1
+      - run: aws s3 cp redshift-advanced-monitoring.zip s3://com.signifyd.redshift/advanced-monitoring/${{github.ref_name}}/
