@@ -1,0 +1,24 @@
+name: build-lambda
+on: workflow_dispatch
+#on: push
+
+jobs:
+  create-pipelines:
+    runs-on: ubuntu-latest
+    # required for github oidc
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::418861316265:role/github-amazon-redshift-monitoring
+          aws-region: us-east-1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '2.7'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Build Lambda
+        run: ./build.sh
