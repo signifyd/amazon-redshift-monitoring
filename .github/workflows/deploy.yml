@@ -17,6 +17,7 @@ jobs:
       - run: |
           aws lambda create-function \
             --function-name $lambda_name \
+            --code S3Bucket=com.signifyd.redshift,S3Key=advanced-monitoring/master/redshift-advanced-monitoring.zip \
             --runtime python2.7 \
             --role $lambda_role \
             --handler lambda_function.lambda_handler \
