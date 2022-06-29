@@ -1,0 +1,25 @@
+name: package
+on: push
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '2.7'
+          cache: 'pip'
+      - name: install lib
+        run: |
+          pip install pg8000 -t lib
+          pip install pgpasslib -t lib
+      - name: setup dist
+        run: |
+          cp *.py dist/
+          cp -r lib/ dist/
+          cp monitoring-queries.json dist/
+      - uses: actions/upload-artifact@v3
+        with:
+          name: redshift-advanced-monitoring-${{github.ref_name}}
+          path: dist/
