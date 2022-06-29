@@ -1,0 +1,15 @@
+name: deploy-lambda
+on: workflow_dispatch    
+    
+jobs:    
+  build:         
+    runs-on: ubuntu-latest    
+    # required for github oidc    
+    permissions:    
+      id-token: write    
+      contents: read    
+    steps:    
+      - uses: aws-actions/configure-aws-credentials@v1    
+        with:    
+          role-to-assume: arn:aws:iam::418861316265:role/github-amazon-redshift-monitoring    
+          aws-region: us-east-1    
