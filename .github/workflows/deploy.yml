@@ -9,6 +9,7 @@ jobs:
       id-token: write    
       contents: read    
     steps:    
+      - uses: actions/checkout@v3
       - uses: aws-actions/configure-aws-credentials@v1    
         with:    
           role-to-assume: arn:aws:iam::418861316265:role/github-amazon-redshift-monitoring    
