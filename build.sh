@@ -1,6 +1,8 @@
 #!/bin/bash
 
-ver=`python3 -c 'import redshift_monitoring as rm; print(rm.__version__);'`
+if [ -z "${ver}" ]; then
+  ver=`python3 -c 'import redshift_monitoring as rm; print(rm.__version__);'`
+fi
 
 if [ ! -d dist ]; then
 	mkdir dist
