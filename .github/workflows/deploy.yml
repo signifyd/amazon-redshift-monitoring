@@ -13,3 +13,19 @@ jobs:
         with:    
           role-to-assume: arn:aws:iam::418861316265:role/github-amazon-redshift-monitoring    
           aws-region: us-east-1    
+      - uses: actions/download-artifact@v3
+        with:
+          name: redshift-advanced-monitoring-${{github.ref_name}}
+      - run: |
+          aws lambda create-function \
+            --function-name $lambda_name \
+            --runtime python2.7 \
+            --role $lambda_role \
+            --handler lambda_function.lambda_handler \
+            --timeout 300 \
+            --memory-size 256 \
+            --vpc-config $lambda_vpc
+        env:
+          lambda_name: redshift-advanced-monitoring-${{github.ref_name}}
+          lambda_role: arn:aws:iam::418861316265:role/lambda-redshift-monitor
+          lambda_vpc: SubnetIds=subnet-e8bbf3c3,subnet-0a22d77c,SecurityGroupIds=sg-0ce59f2a76594a957
