@@ -2,10 +2,10 @@ name: package
 on: push
 
 jobs:
-  env:
-    pkg_name: redshift-advanced-monitoring.zip
   package:
     runs-on: ubuntu-latest
+    env:
+      pkg_name: redshift-advanced-monitoring.zip
     # required for github oidc
     permissions:
       id-token: write
